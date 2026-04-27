@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherLab - Encode</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img src="CipherLab Logo/4.png" alt="CipherLab Logo">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a class="nav-active" href="encode.html">Encode</a>
+                <a href="decode.html">Decode</a>
+                <a href="learn.html">Learn</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-wrapper">
+        <div class="blob blob-left"></div>
+        <div class="blob blob-right"></div>
+
+        <h1 class="page-title">Encode Message</h1>
+
+        <div class="cipher-card">
+           
+      <div class="encoder-header">
+        <div class="encoder-header-icon">
+         <img src="CipherLab Logo/2.png" alt="CipherLab Logo">
+          </svg>
+        </div>
+        <span class="encoder-header-text">Encoder</span>
+      </div>
+            <div class="form-group">
+                <label class="form-label">Message to Encode</label>
+                <input type="text" id="messageInput" class="form-input" placeholder="Enter secret message...">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Select Cipher</label>
+                <select id="cipherSelect" class="form-select">
+                    <option value="caesar">Caesar Cipher</option>
+                    <option value="reverse">Reverse Cipher</option>
+                </select>
+            </div>
+
+            <button class="primary-btn" style="width: 100%;" onclick="processEncode()">Encode Now</button>
+
+            <div style="margin-top: 30px;">
+                <label class="form-label">Result</label>
+                <div style="margin-top: 30px; position: relative;">
+    <label class="form-label">Result</label>
+    <div style="position: relative;">
+        <div id="resultBox" style="background: rgba(255,255,255,0.1); padding: 15px; padding-right: 50px; border-radius: 10px; min-height: 50px; word-break: break-all; border: 1px solid rgba(255,255,255,0.05);">
+            Output will appear here...
+        </div>
+        <button onclick="copyResult()" style="position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); border: none; border-radius: 5px; padding: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s;" title="Copy to clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function processEncode() {
+            const msg = document.getElementById('messageInput').value;
+            const type = document.getElementById('cipherSelect').value;
+            let result = "";
+
+        if (type === 'caesar') {
+    const shift = 3;
+    result = msg.replace(/[a-z]/gi, (char) => {
+        const charCode = char.charCodeAt(0);
+        
+        if (charCode >= 65 && charCode <= 90) {
+            return String.fromCharCode(((charCode - 65 + shift) % 26) + 65);
+        }
+
+        if (charCode >= 97 && charCode <= 122) {
+            return String.fromCharCode(((charCode - 97 + shift) % 26) + 97);
+        }
+        return char; 
+    });
+} else {
+    result = msg.split('').reverse().join('');
+}
+
+            document.getElementById('resultBox').innerText = result;
+        }
+
+    function copyResult() {
+    const resultText = document.getElementById('resultBox').innerText;
+    
+
+    if (resultText === "Output will appear here...") return;
+
+    navigator.clipboard.writeText(resultText).then(() => {
+  
+        const btn = event.currentTarget;
+        const originalBg = btn.style.background;
+        btn.style.background = "rgba(74, 222, 128, 0.3)";
+        
+        setTimeout(() => {
+            btn.style.background = originalBg;
+        }, 500);
+        
+        alert("Copied to clipboard!");
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+}
+
+
+        document.addEventListener('mousemove', (e) => {
+            const blobs = document.querySelectorAll('.blob');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            blobs.forEach((blob, index) => {
+                const direction = index === 0 ? 1 : -1;
+                blob.style.transform = `translateY(-50%) translate(${(x - 0.5) * 30 * direction}px, ${(y - 0.5) * 20 * direction}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

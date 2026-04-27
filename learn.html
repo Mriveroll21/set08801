@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherLab - Learn About Ciphers</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img src="CipherLab Logo/4.png" alt="CipherLab Logo">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="encode.html">Encode</a>
+                <a href="decode.html">Decode</a>
+                <a class="nav-active" href="learn.html">Learn</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-wrapper">
+        <div class="blob blob-left"></div>
+        <div class="blob blob-right"></div>
+
+        <h1 class="page-title">Learn About Ciphers</h1>
+
+        <div class="learn-container">
+            <div class="info-card">
+                <h2>Caesar Cipher</h2>
+                <p>The Caesar cipher is a substitution cipher that replaces each letter in a text by a letter some fixed number of positions down the alphabet.</p>
+                <div class="example-box">
+                    Example:<br>
+                    HELLO → KHOOR
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h2>Reverse Cipher</h2>
+                <p>The Reverse cipher is a simple encryption method that flips the entire message backwards, making it unreadable at a glance.</p>
+                <div class="example-box">
+                    Example:<br>
+                    HELLO → OLLEH
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-credit">
+            <p style="color: rgba(255,255,255,0.6);">Brought to you by:</p>
+            <img src="CipherLab Logo/1.png" class="footer-logo" alt="CipherLab Logo">
+        </div>
+    </main>
+
+    <script>
+        // Shared Mouse Effect
+        document.addEventListener('mousemove', (e) => {
+            const blobs = document.querySelectorAll('.blob');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            blobs.forEach((blob, index) => {
+                const direction = index === 0 ? 1 : -1;
+                blob.style.transform = `translateY(-50%) translate(${(x - 0.5) * 30 * direction}px, ${(y - 0.5) * 20 * direction}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
