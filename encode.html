@@ -67,6 +67,14 @@
             </svg>
         </button>
     </div>
+                    <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <label class="form-label" style="margin: 0;">Recent History</label>
+        <button onclick="localStorage.clear(); displayHistory();" style="background: transparent; border: none; color: #ff4a4a; cursor: pointer; font-size: 11px;">Clear All</button>
+    </div>
+    <div id="historyList">
+        </div>
+</div>
 </div>
             </div>
         </div>
@@ -97,8 +105,53 @@
 }
 
             document.getElementById('resultBox').innerText = result;
+            saveToHistory(msg, result, type);
         }
+// Function to save to history
+function saveToHistory(original, result, type) {
+    // 1. Get existing history or start a new array
+    let history = JSON.parse(localStorage.getItem('cipherHistory')) || [];
 
+    // 2. Add new entry to the start of the list
+    const newEntry = {
+        original: original,
+        result: result,
+        type: type, // 'Caesar' or 'Reverse'
+        date: new Date().toLocaleTimeString()
+    };
+    
+    history.unshift(newEntry);
+
+    // 3. Keep only the last 5-10 items so it doesn't get cluttered
+    if (history.length > 5) history.pop();
+
+    // 4. Save back to localStorage
+    localStorage.setItem('cipherHistory', JSON.stringify(history));
+
+    displayHistory();
+}
+
+
+function displayHistory() {
+    const historyContainer = document.getElementById('historyList');
+    const history = JSON.parse(localStorage.getItem('cipherHistory')) || [];
+
+    if (history.length === 0) {
+        historyContainer.innerHTML = "<p style='opacity:0.5; font-size:12px;'>No history yet...</p>";
+        return;
+    }
+
+    historyContainer.innerHTML = history.map(item => `
+        <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--green-primary);">
+            <div style="font-size: 10px; color: var(--green-primary); margin-bottom: 4px;">${item.type} • ${item.date}</div>
+            <div style="font-size: 13px; color: #fff;"><strong>In:</strong> ${item.original}</div>
+            <div style="font-size: 13px; color: rgba(255,255,255,0.7);"><strong>Out:</strong> ${item.result}</div>
+        </div>
+    `).join('');
+}
+
+// Load history immediately when the page opens
+window.onload = displayHistory;
     function copyResult() {
     const resultText = document.getElementById('resultBox').innerText;
     
