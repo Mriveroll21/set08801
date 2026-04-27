@@ -53,7 +53,6 @@
             <button class="primary-btn" style="width: 100%;" onclick="processEncode()">Encode Now</button>
 
             <div style="margin-top: 30px;">
-                <label class="form-label">Result</label>
                 <div style="margin-top: 30px; position: relative;">
     <label class="form-label">Result</label>
     <div style="position: relative;">
@@ -107,12 +106,12 @@
             document.getElementById('resultBox').innerText = result;
             saveToHistory(msg, result, type);
         }
-// Function to save to history
+
 function saveToHistory(original, result, type) {
-    // 1. Get existing history or start a new array
+ 
     let history = JSON.parse(localStorage.getItem('cipherHistory')) || [];
 
-    // 2. Add new entry to the start of the list
+
     const newEntry = {
         original: original,
         result: result,
@@ -122,10 +121,9 @@ function saveToHistory(original, result, type) {
     
     history.unshift(newEntry);
 
-    // 3. Keep only the last 5-10 items so it doesn't get cluttered
+ 
     if (history.length > 5) history.pop();
 
-    // 4. Save back to localStorage
     localStorage.setItem('cipherHistory', JSON.stringify(history));
 
     displayHistory();
